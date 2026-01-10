@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -380,6 +380,7 @@ export default function HablemosEnSerioPage() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
+                  aria-label={`Ir a ${item.label}`}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id
                       ? "bg-sky-100 text-sky-700"
@@ -421,6 +422,7 @@ export default function HablemosEnSerioPage() {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
+                    aria-label={`Ir a ${item.label}`}
                     className={`px-4 py-2 rounded-lg text-left font-medium transition-colors ${
                       activeSection === item.id
                         ? "bg-sky-100 text-sky-700"
@@ -442,6 +444,8 @@ export default function HablemosEnSerioPage() {
         </div>
       </motion.header>
 
+      {/* Main Content */}
+      <main>
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
         <WaveDecoration />
@@ -453,14 +457,21 @@ export default function HablemosEnSerioPage() {
               transition={{ duration: 0.8 }}
               className="relative z-10"
             >
-              <motion.img
-                src="/logo.png"
-                alt="Logo Hablemos en Serio"
+              <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
-                className="w-48 md:w-64 lg:w-80 mb-8"
-              />
+                className="w-48 md:w-64 lg:w-80 mb-8 relative"
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Logo Hablemos en Serio"
+                  width={320}
+                  height={320}
+                  priority
+                  className="w-full h-auto"
+                />
+              </motion.div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 text-balance">
                 Hablemos en Serio
               </h1>
@@ -794,10 +805,10 @@ export default function HablemosEnSerioPage() {
                     )}
 
                     <div className="border-t border-sky-100 pt-6">
-                      <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                         <CheckCircle2 className="w-5 h-5 text-sky-600" />
                         Checklist de inclusión
-                      </h4>
+                      </h3>
                       <div className="space-y-3">
                         {[
                           "Diseñar actividades para todas las personas",
@@ -835,7 +846,7 @@ export default function HablemosEnSerioPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">¿Qué es la ciberadicción?</h4>
+                      <h3 className="font-semibold text-slate-900 mb-3">¿Qué es la ciberadicción?</h3>
                       <p className="text-slate-600 leading-relaxed">
                         La ciberadicción es la pérdida de control en el
                         uso de internet y dispositivos tecnológicos,
@@ -848,7 +859,7 @@ export default function HablemosEnSerioPage() {
                     </div>
 
                     <div className="border-t border-sky-100 pt-6">
-                      <h4 className="font-semibold text-slate-900 mb-4">Señales frecuentes</h4>
+                      <h3 className="font-semibold text-slate-900 mb-4">Señales frecuentes</h3>
                       <div className="grid md:grid-cols-2 gap-3">
                         {[
                           "Dificultad para reducir el tiempo de uso",
@@ -913,7 +924,7 @@ export default function HablemosEnSerioPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">Los riesgos de la desinformación</h4>
+                      <h3 className="font-semibold text-slate-900 mb-3">Los riesgos de la desinformación</h3>
                       <div className="space-y-4 text-slate-600 leading-relaxed">
                         <p>
                           Las redes sociales, al ser una fuente principal de información, han facilitado la difusión de noticias falsas, teorías conspirativas y contenido engañoso que distorsiona la percepción de la realidad. Uno de los mayores riesgos es la manipulación de la opinión pública en temas clave como política, salud y ciencia.
@@ -937,10 +948,10 @@ export default function HablemosEnSerioPage() {
                     </div>
 
                     <div className="border-t border-sky-100 pt-6">
-                      <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                         <ShieldCheck className="w-5 h-5 text-sky-600" />
                         Kit rápido de verificación
-                      </h4>
+                      </h3>
                       <div className="grid md:grid-cols-2 gap-4">
                         {[
                           {
@@ -975,7 +986,7 @@ export default function HablemosEnSerioPage() {
                           >
                             <div className="flex items-center gap-2 mb-2">
                               <div className="text-sky-600">{item.icon}</div>
-                              <h5 className="font-semibold text-slate-900">{item.title}</h5>
+                              <h4 className="font-semibold text-slate-900">{item.title}</h4>
                             </div>
                             <p className="text-xs text-slate-600">{item.description}</p>
                           </motion.div>
@@ -1114,7 +1125,7 @@ export default function HablemosEnSerioPage() {
           >
             <Card className="border-sky-200 bg-gradient-to-br from-sky-50 to-cyan-50 shadow-xl">
               <CardContent className="p-8 md:p-12">
-                <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Nuestro impacto</h3>
+                <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Nuestro impacto</h2>
                 <div className="grid md:grid-cols-3 gap-8">
                   {[
                     { label: "Jóvenes protagonistas", value: 140, suffix: "+" },
@@ -1182,7 +1193,7 @@ export default function HablemosEnSerioPage() {
                       />
                       <Dialog>
                         <DialogTrigger asChild>
-                          <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all">
+                          <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all" aria-label="Ver imagen en tamaño completo">
                             <Eye className="w-5 h-5 text-slate-700" />
                           </button>
                         </DialogTrigger>
@@ -1293,10 +1304,16 @@ export default function HablemosEnSerioPage() {
                   whileHover={{ scale: 1.05 }}
                   className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-sky-100 to-cyan-100 shadow-md"
                 >
-                  <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
+                  <Image 
+                    src={image.src} 
+                    alt={image.alt} 
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover"
+                  />
                   <Dialog>
                     <DialogTrigger asChild>
-                      <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all">
+                      <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all z-10" aria-label="Ver imagen en tamaño completo">
                         <Eye className="w-5 h-5 text-slate-700" />
                       </button>
                     </DialogTrigger>
@@ -1304,7 +1321,15 @@ export default function HablemosEnSerioPage() {
                       <DialogHeader>
                         <DialogTitle>{image.alt}</DialogTitle>
                       </DialogHeader>
-                      <img src={image.src} alt={image.alt} className="w-full h-auto rounded-lg" />
+                      <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+                        <Image 
+                          src={image.src} 
+                          alt={image.alt} 
+                          fill
+                          sizes="(max-width: 1024px) 90vw, 800px"
+                          className="object-contain rounded-lg"
+                        />
+                      </div>
                     </DialogContent>
                   </Dialog>
                 </motion.div>
@@ -1359,6 +1384,7 @@ export default function HablemosEnSerioPage() {
           </motion.div>
         </div>
       </AnimatedSection>
+      </main>
 
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-300 py-12">
@@ -1376,7 +1402,7 @@ export default function HablemosEnSerioPage() {
               <ul className="space-y-2 text-sm">
                 {navItems.slice(0, 4).map((item) => (
                   <li key={item.id}>
-                    <button onClick={() => scrollToSection(item.id)} className="hover:text-sky-400 transition-colors">
+                    <button onClick={() => scrollToSection(item.id)} aria-label={`Ir a ${item.label}`} className="hover:text-sky-400 transition-colors">
                       {item.label}
                     </button>
                   </li>
@@ -1388,7 +1414,7 @@ export default function HablemosEnSerioPage() {
               <ul className="space-y-2 text-sm">
                 {navItems.slice(4).map((item) => (
                   <li key={item.id}>
-                    <button onClick={() => scrollToSection(item.id)} className="hover:text-sky-400 transition-colors">
+                    <button onClick={() => scrollToSection(item.id)} aria-label={`Ir a ${item.label}`} className="hover:text-sky-400 transition-colors">
                       {item.label}
                     </button>
                   </li>
@@ -1407,13 +1433,13 @@ export default function HablemosEnSerioPage() {
                     <Instagram className="w-5 h-5" />
                   </button>
                 </div>
-                <img src="/logo.png" alt="Hablemos en Serio" className="w-24 h-auto" />
+                <Image src="/logo.png" alt="Hablemos en Serio" width={96} height={96} className="w-24 h-auto" />
               </div>
             </div>
           </div>
           {/* Logo centered on mobile and tablet */}
           <div className="flex lg:hidden justify-center mb-8 pb-4 border-b border-slate-800">
-            <img src="/logo.png" alt="Hablemos en Serio" className="w-24 h-auto" />
+            <Image src="/logo.png" alt="Hablemos en Serio" width={96} height={96} className="w-24 h-auto" />
           </div>
           <div className="border-t border-slate-800 pt-6 text-sm text-center">
             <p className="mb-2">© 2025 Hablemos en Serio. Proyecto educativo y de concientización.</p>

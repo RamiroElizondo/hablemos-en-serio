@@ -144,6 +144,14 @@ export default function HablemosEnSerioPage() {
     }
   }
 
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5492645554314"
+
+  const handleWhatsappClick = () => {
+    const number = whatsappNumber.replace(/[^0-9]/g, "")
+    if (!number) return
+    window.open(`https://wa.me/${number}`, "_blank")
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = navItems.map((item) => document.getElementById(item.id))
@@ -1321,6 +1329,7 @@ export default function HablemosEnSerioPage() {
               <Button
                 size="lg"
                 className="bg-white text-sky-700 hover:bg-sky-50 shadow-lg hover:shadow-xl transition-all"
+                onClick={handleWhatsappClick}
               >
                 Contactar
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -1329,7 +1338,12 @@ export default function HablemosEnSerioPage() {
                 size="lg"
                 variant="outline"
                 className="border-white text-white hover:bg-white/10 backdrop-blur bg-transparent"
-                onClick={() => window.open("https://instagram.com/hablemos.en.serio", "_blank")}
+                onClick={() =>
+                  window.open(
+                    "https://www.instagram.com/hablemos.en.serio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+                    "_blank"
+                  )
+                }
               >
                 <Instagram className="mr-2 w-4 h-4" />
                 Seguir en Instagram

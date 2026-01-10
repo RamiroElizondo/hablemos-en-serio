@@ -29,11 +29,13 @@ import {
   Sparkles,
   Calendar,
   MapPin,
+  ArrowLeft,
   ArrowRight,
   Instagram,
   Menu,
   X,
   CheckCircle2,
+  Eye,
 } from "lucide-react"
 
 // Animated counter component
@@ -67,13 +69,14 @@ function CountUp({ end, duration = 2, suffix = "" }: { end: number; duration?: n
 }
 
 // Animated section wrapper
-function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function AnimatedSection({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
     <motion.section
       ref={ref}
+      id={id}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -117,6 +120,9 @@ export default function HablemosEnSerioPage() {
   const [activeSection, setActiveSection] = useState("proyecto")
   const { scrollY } = useScroll()
   const headerBg = useTransform(scrollY, [0, 100], ["rgba(255,255,255,0)", "rgba(255,255,255,0.95)"])
+  const [inclusionExpanded, setInclusionExpanded] = useState(false)
+  const [inclusionFlipped, setInclusionFlipped] = useState(false)
+  const [galleryPage, setGalleryPage] = useState(0)
 
   const navItems = [
     { id: "proyecto", label: "Proyecto" },
@@ -132,7 +138,7 @@ export default function HablemosEnSerioPage() {
     const element = document.getElementById(id)
     if (element) {
       const offset = 80
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
       window.scrollTo({ top: elementPosition - offset, behavior: "smooth" })
       setMobileMenuOpen(false)
     }
@@ -195,29 +201,92 @@ export default function HablemosEnSerioPage() {
     },
   ]
 
+  const inclusionDetails = [
+    {
+      title: "Discapacidad Auditiva",
+      description:
+        "La discapacidad auditiva puede ser congénita o adquirida y presenta distintos grados, desde una pérdida leve hasta una sordera profunda. Las principales barreras aparecen cuando la comunicación depende únicamente del oído. La inclusión requiere generar entornos accesibles mediante recursos visuales, lenguaje de señas y una actitud de respeto, paciencia y comprensión hacia la diversidad auditiva.",
+      image: "/auditiva.png",
+    },
+    {
+      title: "Discapacidad Verbal",
+      description:
+        "Las dificultades en la comunicación verbal pueden manifestarse a través de trastornos del habla, mutismo selectivo, afasia o ansiedad social. Para estas personas es fundamental sentirse parte de un entorno que valore distintas formas de expresión. El uso de comunicación escrita, lenguaje de señas y tecnologías de asistencia permite que todos puedan expresar ideas y necesidades de manera efectiva.",
+      image: "/verbal.png",
+    },
+    {
+      title: "Discapacidad Visual",
+      description:
+        "La discapacidad visual abarca desde una visión reducida hasta la ceguera total. Para garantizar la inclusión, es necesario adaptar tanto los espacios físicos como los materiales utilizados. El uso de formatos accesibles como Braille, tecnologías que describen el entorno y espacios seguros y bien organizados permite una participación plena e independiente.",
+      image: "/visual.png",
+    },
+    {
+      title: "TEA (Trastorno del Espectro Autista)",
+      description:
+        "El Trastorno del Espectro Autista es una condición neurológica que influye en la forma en que la persona percibe e interactúa con el mundo, pudiendo presentar conductas repetitivas y patrones restringidos. La inclusión implica respetar sus particularidades sensoriales y comunicativas, ofreciendo entornos estructurados, previsibles y libres de sobrecarga sensorial.",
+      image: "/tea.png",
+    },
+    {
+      title: "TDA (Trastorno por Déficit de Atención)",
+      description:
+        "El TDA afecta la concentración, la organización y la finalización de tareas, lo que puede dificultar la participación en actividades tradicionales. Aunque pueden presentar distracciones o dificultades para seguir instrucciones, estas personas suelen destacarse por su creatividad y pensamiento no convencional. Es clave ofrecer espacios flexibles y tareas breves que favorezcan la atención sostenida.",
+      image: "/tda.jpeg",
+    },
+    {
+      title: "TDAH (Trastorno por Déficit de Atención con Hiperactividad)",
+      description:
+        "El TDAH combina dificultades de atención con hiperactividad e impulsividad, lo que puede generar desafíos en la convivencia y participación. Sin embargo, son personas energéticas, entusiastas y creativas. La inclusión requiere aceptar sus necesidades de movimiento y estimulación, creando entornos que permitan canalizar la energía y acompañar el desarrollo de la atención.",
+      image: "/tdah.png",
+    },
+  ]
+
   const impactAreas = [
     {
       title: "Corporabilidad",
-      description:
-        "Promovemos la integración física y emocional, generando empatía y comprensión de diferentes realidades corporales.",
+      description: `
+        A través de charlas didácticas y juegos se
+        espera aumentar el desarrollo intelectual
+        de cada Protagonista, dado que comprenderán
+        las situaciones que algunos chicos viven
+        por sus dificultades, pensarán más sus
+        acciones, actuando con lógica para mejorar
+        la integración.
+    `,
       icon: <HeartHandshake className="w-8 h-8" />,
     },
     {
       title: "Sociabilidad",
       description:
-        "Fomentamos valores de solidaridad, respeto y convivencia, construyendo comunidades más inclusivas y acogedoras.",
+        `Se busca fomentar la solarididad, el
+        respeto por los derechos y las normas,
+        y la capacidad de actuar con empatía
+        y compromiso en la comunidad.Ayuda
+        a reconocer y respetar lad diferencias
+        qie existen entre todas las personas.
+        De esta forma todos pueden participar
+        De forma activa en la comunidad.`,
       icon: <Users className="w-8 h-8" />,
     },
     {
       title: "Carácter",
       description:
-        "Desarrollamos procesos cognitivos, pensamiento crítico y autonomía para tomar decisiones informadas y responsables.",
+        `Fomentar la voluntad de
+        integración,desde la reflexión
+        hasta la interacción con otras
+        personas, procurando que se
+        genera un ambiente de empatía
+        entre los protagonistas.`,
       icon: <Brain className="w-8 h-8" />,
     },
     {
       title: "Creatividad",
       description:
-        "Estimulamos la capacidad de idear actividades y soluciones innovadoras que incluyan a todas las personas.",
+        `Desarollar los procesos congnitivos
+        de cada protagonista, con el fin de
+        que puedan entender a las demás
+        personas y que a la hora de que
+        deseen planificar una actividad,
+        la puedan idear para todas.`,
       icon: <Sparkles className="w-8 h-8" />,
     },
   ]
@@ -227,7 +296,8 @@ export default function HablemosEnSerioPage() {
       year: "2024",
       date: "16 de noviembre de 2024",
       title: "Inclusión y discapacidad en el escultismo",
-      location: "San Juan, Argentina",
+      location: "Capital, San Juan, Argentina - Colegio Don Bosco",
+      image: "/edicion1.jpeg",
       summary: [
         "Modelo social de la discapacidad y su aplicación en scouts",
         "Buenas prácticas para diseñar actividades accesibles",
@@ -239,7 +309,8 @@ export default function HablemosEnSerioPage() {
       year: "2025",
       date: "30 de agosto de 2025",
       title: "Ciberadicción y desinformación",
-      location: "San Juan — sede a confirmar",
+      location: "Capital, San Juan, Argentina  Centro de Convenciones Guillermo Barrena Guzmán",
+      image: "/edicion2.jpg",
       summary: [
         "Identificación de señales de ciberadicción",
         "Estrategias para promover el bienestar digital",
@@ -248,6 +319,35 @@ export default function HablemosEnSerioPage() {
       ],
     },
   ]
+
+  const galleryImages = [
+    { src: "/galeria/fotoAuditivo.jpeg", alt: "Dinámica sobre apoyo auditivo" },
+    { src: "/galeria/fotoVisual.jpeg", alt: "Actividad de sensibilización visual" },
+    { src: "/galeria/fotoHabla.jpeg", alt: "Ejercicio de comunicación y habla" },
+    { src: "/galeria/fotoComun.jpeg", alt: "Actividad inclusiva en grupo" },
+    { src: "/galeria/foto1.jpeg", alt: "Momento de la jornada 1" },
+    { src: "/galeria/foto2.jpeg", alt: "Momento de la jornada 2" },
+    { src: "/galeria/foto3.jpeg", alt: "Momento de la jornada 3" },
+    { src: "/galeria/foto4.jpeg", alt: "Momento de la jornada 4" },
+    { src: "/galeria/foto5.jpeg", alt: "Momento de la jornada 5" },
+    { src: "/galeria/foto6.jpeg", alt: "Momento de la jornada 6" },
+    { src: "/galeria/foto7.jpeg", alt: "Momento de la jornada 7" },
+    { src: "/galeria/foto8.jpeg", alt: "Momento de la jornada 8" },
+    { src: "/galeria/foto9.jpeg", alt: "Momento de la jornada 9" },
+    { src: "/galeria/foto10.jpeg", alt: "Momento de la jornada 10" },
+    { src: "/galeria/foto11.jpeg", alt: "Momento de la jornada 11" },
+    { src: "/galeria/foto12.jpeg", alt: "Momento de la jornada 12" },
+    { src: "/galeria/foto13.jpeg", alt: "Momento de la jornada 13" },
+    { src: "/galeria/foto14.jpeg", alt: "Momento de la jornada 14" },
+    { src: "/galeria/foto15.jpeg", alt: "Momento de la jornada 15" },
+    { src: "/galeria/foto16.jpeg", alt: "Momento de la jornada 16" },
+  ]
+
+  const imagesPerPage = 8
+  const pageCount = Math.ceil(galleryImages.length / imagesPerPage)
+  const currentGalleryPage = ((galleryPage % pageCount) + pageCount) % pageCount
+  const startIndex = currentGalleryPage * imagesPerPage
+  const visibleImages = galleryImages.slice(startIndex, startIndex + imagesPerPage)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-cyan-50">
@@ -403,7 +503,7 @@ export default function HablemosEnSerioPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-sky-300 text-sky-700 hover:bg-sky-50 bg-transparent"
+                  className="border-sky-300 text-sky-700 hover:bg-sky-600 hover:text-white bg-transparent transition-all"
                   onClick={() => scrollToSection("ediciones")}
                 >
                   Ediciones
@@ -467,10 +567,22 @@ export default function HablemosEnSerioPage() {
             <Card className="border-sky-100 shadow-xl bg-white/80 backdrop-blur">
               <CardContent className="p-8 md:p-12">
                 <p className="text-lg text-slate-700 leading-relaxed mb-8 text-pretty">
-                  Hablemos en Serio busca generar conciencia sobre la inclusión de personas con discapacidad en
-                  actividades scouts, y también abordar problemáticas actuales vinculadas al uso de la tecnología:
-                  ciberadicción y desinformación. Se trabaja con charlas, dinámicas y actividades para promover
-                  participación igualitaria, pensamiento crítico y bienestar colectivo.
+                  Hablemos en Serio es un proyecto que busca
+                  generar conciencia sobre la inclusión de personas
+                  con discapacidad en las actividades realizadas
+                  dentro de los grupos scouts, y también abordar problemáticas actuales vinculadas al uso de la tecnología:
+                  ciberadicción y desinformación.
+                  En Escencia, es un espacio de diálogo y
+                  aprendizaje, organizado por y para
+                  jóvenes con el objetivo de fomentar
+                  la participación activa e igualatoria en
+                  todos los miembros .
+                  Está dirigido a un público juvenil y brinda
+                  herramientas prácticas qué serán
+                  proporcionadas por profesionales y
+                  expertos en la temática
+
+                  
                 </p>
 
                 <div className="border-t border-sky-100 pt-8">
@@ -480,7 +592,7 @@ export default function HablemosEnSerioPage() {
                   </h3>
                   <div className="grid md:grid-cols-3 gap-6">
                     {[
-                      { icon: <Users className="w-6 h-6" />, title: "Charlas con profesionales/experts", step: "01" },
+                      { icon: <Users className="w-6 h-6" />, title: "Charlas con profesionales/expertos", step: "01" },
                       {
                         icon: <HeartHandshake className="w-6 h-6" />,
                         title: "Dinámicas y juegos didácticos",
@@ -564,30 +676,108 @@ export default function HablemosEnSerioPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <Card className="bg-sky-50/50 border-sky-200">
-                        <CardHeader>
-                          <CardTitle className="text-lg">Modelo social de la discapacidad</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm text-slate-600">
-                            Entendiendo que las barreras están en el entorno, no en las personas. Trabajamos para
-                            eliminar obstáculos y crear espacios verdaderamente inclusivos.
-                          </p>
-                        </CardContent>
-                      </Card>
-                      <Card className="bg-cyan-50/50 border-cyan-200">
-                        <CardHeader>
-                          <CardTitle className="text-lg">Buenas prácticas scouts</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm text-slate-600">
-                            Adaptaciones concretas para actividades al aire libre, campamentos, juegos y ceremonias que
-                            permitan la participación plena de todos.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </div>
+                    {!inclusionExpanded && (
+                      <div className="grid md:grid-cols-2 gap-4" style={{ perspective: 1000 }}>
+                        <motion.div
+                          initial={{ rotateY: 0, opacity: 1 }}
+                          animate={inclusionFlipped ? { rotateY: 180, opacity: 0 } : { rotateY: 0, opacity: 1 }}
+                          transition={{ duration: 0.6 }}
+                          style={{ transformStyle: "preserve-3d" }}
+                        >
+                          <Card className="bg-sky-50/50 border-sky-200 h-full">
+                            <CardHeader>
+                              <CardTitle className="text-lg">Modelo social</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <p className="text-sm text-slate-600">
+                                La Convención sobre los Derechos de las Personas con Discapacidad, primera del siglo XXI, adopta un modelo social de la discapacidad,
+                                entendida como el resultado de la interacción entre una deficiencia personal y las barreras del entorno. Según su artículo 1,
+                                la discapacidad surge cuando las deficiencias físicas, mentales, intelectuales o sensoriales a largo plazo, al interactuar con dichas barreras, limitan la participación plena y efectiva de las personas en igualdad de condiciones con las demás.
+                              </p>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+
+                        <motion.div
+                          className="relative"
+                          initial={{ rotateY: 0, opacity: 1 }}
+                          animate={inclusionFlipped ? { rotateY: 180, opacity: 0 } : { rotateY: 0, opacity: 1 }}
+                          transition={{ duration: 0.6 }}
+                          style={{ transformStyle: "preserve-3d" }}
+                        >
+                          <Card className="bg-cyan-50/50 border-cyan-200 h-full">
+                            <CardHeader>
+                              <CardTitle className="text-lg">Buenas prácticas scouts</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <p className="text-sm text-slate-600">
+                                Adaptaciones concretas para actividades al aire libre, campamentos, juegos y ceremonias que
+                                permitan la participación plena de todos.
+                              </p>
+                            </CardContent>
+                          </Card>
+                          <motion.button
+                            aria-label="Ver más inclusión"
+                            onClick={() => {
+                              setInclusionFlipped(true)
+                              setTimeout(() => setInclusionExpanded(true), 600)
+                            }}
+                            className="absolute right-[-12px] top-1/2 -translate-y-1/2 bg-sky-600 text-white w-8 h-8 rounded-full shadow-md hover:bg-sky-700 flex items-center justify-center"
+                            whileHover={{ scale: 1.1 }}
+                          >
+                            <ArrowRight className="w-4 h-4" />
+                          </motion.button>
+                        </motion.div>
+                      </div>
+                    )}
+
+                    {inclusionExpanded && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.4 }}
+                        className="relative"
+                      >
+                        <div className="grid md:grid-cols-2 gap-4">
+                          {inclusionDetails.map((item, index) => (
+                            <div key={index}>
+                              <Card className="border-sky-200 h-full">
+                                <CardHeader>
+                                  <CardTitle className="text-lg">{item.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="flex-1">
+                                  <div className="flex items-start gap-4 h-full">
+                                    <p className="text-sm text-slate-600 flex-1">{item.description}</p>
+                                    <img
+                                      src={item.image}
+                                      alt={item.title}
+                                      className="w-20 h-20 object-contain rounded-xl border border-sky-100 flex-shrink-0"
+                                    />
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            </div>
+                          ))}
+                        </div>
+                        <motion.button
+                          aria-label="Volver a vista anterior"
+                          onClick={() => {
+                            setInclusionExpanded(false)
+                            setInclusionFlipped(false)
+                            const element = document.getElementById("ejes")
+                            if (element) {
+                              const offset = 100
+                              const elementPosition = element.getBoundingClientRect().top + window.scrollY
+                              window.scrollTo({ top: elementPosition - offset, behavior: "smooth" })
+                            }
+                          }}
+                          className="absolute left-[-12px] top-1/2 -translate-y-1/2 bg-sky-600 text-white w-8 h-8 rounded-full shadow-md hover:bg-sky-700 flex items-center justify-center"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <ArrowRight className="w-4 h-4 rotate-180" />
+                        </motion.button>
+                      </motion.div>
+                    )}
 
                     <div className="border-t border-sky-100 pt-6">
                       <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -633,8 +823,13 @@ export default function HablemosEnSerioPage() {
                     <div>
                       <h4 className="font-semibold text-slate-900 mb-3">¿Qué es la ciberadicción?</h4>
                       <p className="text-slate-600 leading-relaxed">
-                        Es la dificultad para controlar el uso de dispositivos digitales, generando impactos negativos
-                        en la vida diaria, relaciones personales y responsabilidades.
+                        La ciberadicción es la pérdida de control en el
+                        uso de internet y dispositivos tecnológicos,
+                        generando una dependencia que afecta
+                        negativamenye la vida diaria. Se manifiesta
+                        en el uso excesivo de los celulares, computadoras y tablets, interfiriendo en el rendimiento
+                        académico o laboral, relaciones interprrsonales
+                        Y la salud mental.
                       </p>
                     </div>
 
@@ -705,11 +900,26 @@ export default function HablemosEnSerioPage() {
                   <CardContent className="space-y-6">
                     <div>
                       <h4 className="font-semibold text-slate-900 mb-3">Los riesgos de la desinformación</h4>
-                      <p className="text-slate-600 leading-relaxed mb-4">
-                        En la era digital, las noticias falsas, contenido engañoso y algoritmos de redes sociales pueden
-                        distorsionar nuestra percepción de la realidad. Es fundamental desarrollar herramientas para
-                        identificar información confiable.
-                      </p>
+                      <div className="space-y-4 text-slate-600 leading-relaxed">
+                        <p>
+                          Las redes sociales, al ser una fuente principal de información, han facilitado la difusión de noticias falsas, teorías conspirativas y contenido engañoso que distorsiona la percepción de la realidad. Uno de los mayores riesgos es la manipulación de la opinión pública en temas clave como política, salud y ciencia.
+                        </p>
+                        <p>
+                          Los algoritmos priorizan el contenido llamativo sobre información no verificada, permitiendo que las noticias se viralicen antes de ser desmentidas. Esto influye en decisiones cotidianas desde la salud hasta las elecciones políticas, generando ansiedad, miedo y desconfianza por las instituciones.
+                        </p>
+                        <p>
+                          Para combatir la desinformación, es clave fomentar el pensamiento crítico y la alfabetización digital. Identificar fuentes confiables, contrastar información y cuestionar la veracidad del contenido es esencial. También es necesario que las plataformas digitales promuevan información verificada y regulen la difusión de contenido falso.
+                        </p>
+                        <p>
+                          El acceso inmediato a la información exige
+                          responsabilidad individual. Como con la
+                          Ciberadicción, el problema no es el uso de
+                          tecnología , si no su uso.Solo con un enfoque
+                          critico y equilibrado se puede
+                          aprovecha la era digital
+                          sin caer en sus riesgos.
+                        </p>
+                      </div>
                     </div>
 
                     <div className="border-t border-sky-100 pt-6">
@@ -749,8 +959,10 @@ export default function HablemosEnSerioPage() {
                             whileHover={{ scale: 1.05 }}
                             className="p-4 rounded-xl bg-gradient-to-br from-white to-sky-50 border border-sky-200"
                           >
-                            <div className="text-sky-600 mb-2">{item.icon}</div>
-                            <h5 className="font-semibold text-slate-900 mb-1">{item.title}</h5>
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-sky-600">{item.icon}</div>
+                              <h5 className="font-semibold text-slate-900">{item.title}</h5>
+                            </div>
                             <p className="text-xs text-slate-600">{item.description}</p>
                           </motion.div>
                         ))}
@@ -891,7 +1103,7 @@ export default function HablemosEnSerioPage() {
                 <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Nuestro impacto</h3>
                 <div className="grid md:grid-cols-3 gap-8">
                   {[
-                    { label: "Jóvenes protagonistas", value: 120, suffix: "+" },
+                    { label: "Jóvenes protagonistas", value: 140, suffix: "+" },
                     { label: "Grupos participantes", value: 10, suffix: "+" },
                     { label: "Horas de formación", value: 8, suffix: "+" },
                   ].map((stat, index) => (
@@ -947,15 +1159,38 @@ export default function HablemosEnSerioPage() {
               >
                 <Card className="border-sky-100 hover:border-sky-300 transition-all hover:shadow-lg overflow-hidden">
                   <div className="flex flex-col md:flex-row">
-                    <div className="bg-gradient-to-br from-sky-600 to-cyan-600 text-white p-6 md:p-8 flex flex-col justify-center items-center md:items-start md:w-48">
-                      <div className="text-sm font-medium mb-1">Edición</div>
-                      <div className="text-5xl font-bold mb-2">{edition.year}</div>
-                      <Badge variant="secondary" className="bg-white/20 text-white hover:bg-white/30">
+                    {/* Image Section with Eye Icon */}
+                    <div className="relative md:w-48 h-48 md:h-auto bg-slate-100">
+                      <img
+                        src={edition.image}
+                        alt={`Edición ${edition.year}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all">
+                            <Eye className="w-5 h-5 text-slate-700" />
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>{`Edición ${edition.year}`}</DialogTitle>
+                          </DialogHeader>
+                          <img
+                            src={edition.image}
+                            alt={`Edición ${edition.year}`}
+                            className="w-full h-auto rounded-lg"
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+                      <div className="text-sm font-medium text-sky-600 mb-1">Edición {index + 1}</div>
+                      <div className="text-4xl font-bold text-slate-900 mb-2">{edition.year}</div>
+                      <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-200 w-fit mb-4">
                         <Calendar className="w-3 h-3 mr-1" />
                         {edition.date.split(" ")[0]} {edition.date.split(" ")[1]} {edition.date.split(" ")[2]}
                       </Badge>
-                    </div>
-                    <div className="flex-1 p-6 md:p-8">
                       <h3 className="text-xl font-bold text-slate-900 mb-3">{edition.title}</h3>
                       <p className="text-sm text-slate-600 mb-4 flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-sky-600" />
@@ -1008,22 +1243,56 @@ export default function HablemosEnSerioPage() {
           </motion.p>
 
           <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm text-slate-600">
+                Mostrando {startIndex + 1}-{Math.min(startIndex + visibleImages.length, galleryImages.length)} de
+                {` ${galleryImages.length}`}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setGalleryPage((prev) => (prev - 1 + pageCount) % pageCount)}
+                  aria-label="Anterior"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setGalleryPage((prev) => (prev + 1) % pageCount)}
+                  aria-label="Siguiente"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {Array.from({ length: 8 }).map((_, index) => (
+              {visibleImages.map((image, index) => (
                 <motion.div
-                  key={index}
+                  key={`${image.src}-${index}`}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  transition={{ delay: index * 0.05, duration: 0.35 }}
                   whileHover={{ scale: 1.05 }}
-                  className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-sky-100 to-cyan-100 shadow-md cursor-pointer"
+                  className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-sky-100 to-cyan-100 shadow-md"
                 >
-                  <img
-                    src={`/scouts-youth-activities-.jpg?height=300&width=300&query=scouts+youth+activities+${index}`}
-                    alt={`Galería imagen ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all">
+                        <Eye className="w-5 h-5 text-slate-700" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-3xl">
+                      <DialogHeader>
+                        <DialogTitle>{image.alt}</DialogTitle>
+                      </DialogHeader>
+                      <img src={image.src} alt={image.alt} className="w-full h-auto rounded-lg" />
+                    </DialogContent>
+                  </Dialog>
                 </motion.div>
               ))}
             </div>
@@ -1046,8 +1315,7 @@ export default function HablemosEnSerioPage() {
               ¿Querés llevar Hablemos en Serio a tu grupo?
             </h2>
             <p className="text-lg text-sky-50 mb-8 leading-relaxed">
-              Contactanos para coordinar una jornada en tu grupo scout o seguinos en redes sociales para estar al tanto
-              de próximas ediciones.
+              Contactanos para proveerte de todo lo que necesitas para poder llevar a cabo las jornadas de formación en tu grupo scout.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button

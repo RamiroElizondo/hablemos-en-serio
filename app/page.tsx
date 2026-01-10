@@ -268,11 +268,11 @@ export default function HablemosEnSerioPage() {
         `Se busca fomentar la solarididad, el
         respeto por los derechos y las normas,
         y la capacidad de actuar con empatía
-        y compromiso en la comunidad.Ayuda
-        a reconocer y respetar lad diferencias
-        qie existen entre todas las personas.
+        y compromiso en la comunidad. Ayuda
+        a reconocer y respetar las diferencias
+        que existen entre todas las personas.
         De esta forma todos pueden participar
-        De forma activa en la comunidad.`,
+        de forma activa en la comunidad.`,
       icon: <Users className="w-8 h-8" />,
     },
     {
@@ -289,7 +289,7 @@ export default function HablemosEnSerioPage() {
     {
       title: "Creatividad",
       description:
-        `Desarollar los procesos congnitivos
+        `Desarrollar los procesos cognitivos
         de cada protagonista, con el fin de
         que puedan entender a las demás
         personas y que a la hora de que
@@ -371,7 +371,7 @@ export default function HablemosEnSerioPage() {
               animate={{ opacity: 1, x: 0 }}
               className="text-xl md:text-2xl font-bold text-slate-900"
             >
-              Hablemos en Serio
+              
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -453,6 +453,14 @@ export default function HablemosEnSerioPage() {
               transition={{ duration: 0.8 }}
               className="relative z-10"
             >
+              <motion.img
+                src="/logo.png"
+                alt="Logo Hablemos en Serio"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+                className="w-48 md:w-64 lg:w-80 mb-8"
+              />
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 text-balance">
                 Hablemos en Serio
               </h1>
@@ -484,13 +492,13 @@ export default function HablemosEnSerioPage() {
                 className="flex flex-wrap gap-3 mb-10"
               >
                 <Badge variant="outline" className="px-3 py-1 text-xs border-sky-300 text-sky-700">
-                  +Conciencia
+                  + Conciencia
                 </Badge>
                 <Badge variant="outline" className="px-3 py-1 text-xs border-sky-300 text-sky-700">
-                  +Autocontrol
+                  + Autocontrol
                 </Badge>
                 <Badge variant="outline" className="px-3 py-1 text-xs border-sky-300 text-sky-700">
-                  −Dependencia
+                  − Dependencia
                 </Badge>
               </motion.div>
 
@@ -580,17 +588,15 @@ export default function HablemosEnSerioPage() {
                   con discapacidad en las actividades realizadas
                   dentro de los grupos scouts, y también abordar problemáticas actuales vinculadas al uso de la tecnología:
                   ciberadicción y desinformación.
-                  En Escencia, es un espacio de diálogo y
+                  En esencia, es un espacio de diálogo y
                   aprendizaje, organizado por y para
                   jóvenes con el objetivo de fomentar
-                  la participación activa e igualatoria en
-                  todos los miembros .
+                  la participación activa e igualitaria en
+                  todos los miembros.
                   Está dirigido a un público juvenil y brinda
-                  herramientas prácticas qué serán
+                  herramientas prácticas que serán
                   proporcionadas por profesionales y
                   expertos en la temática
-
-                  
                 </p>
 
                 <div className="border-t border-sky-100 pt-8">
@@ -699,7 +705,7 @@ export default function HablemosEnSerioPage() {
                             <CardContent>
                               <p className="text-sm text-slate-600">
                                 La Convención sobre los Derechos de las Personas con Discapacidad, primera del siglo XXI, adopta un modelo social de la discapacidad,
-                                entendida como el resultado de la interacción entre una deficiencia personal y las barreras del entorno. Según su artículo 1,
+                                entendida como el resultado de la interacción entre una deficiencia personal y las barreras del entorno. Según el artículo 1,
                                 la discapacidad surge cuando las deficiencias físicas, mentales, intelectuales o sensoriales a largo plazo, al interactuar con dichas barreras, limitan la participación plena y efectiva de las personas en igualdad de condiciones con las demás.
                               </p>
                             </CardContent>
@@ -922,9 +928,9 @@ export default function HablemosEnSerioPage() {
                           El acceso inmediato a la información exige
                           responsabilidad individual. Como con la
                           Ciberadicción, el problema no es el uso de
-                          tecnología , si no su uso.Solo con un enfoque
-                          critico y equilibrado se puede
-                          aprovecha la era digital
+                          tecnología , si no su uso. Solo con un enfoque
+                          crítico y equilibrado se puede
+                          aprovechar la era digital
                           sin caer en sus riesgos.
                         </p>
                       </div>
@@ -1389,23 +1395,30 @@ export default function HablemosEnSerioPage() {
                 ))}
               </ul>
             </div>
-            <div>
+            <div className="hidden lg:block">
               <h4 className="text-white font-semibold mb-4">Redes sociales</h4>
-              <div className="flex gap-3">
-                <button
-                  className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-sky-600 flex items-center justify-center transition-colors"
-                  onClick={() => window.open("https://instagram.com/hablemos.en.serio", "_blank")}
-                  aria-label="Instagram"
-                >
-                  <Instagram className="w-5 h-5" />
-                </button>
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-3">
+                  <button
+                    className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-sky-600 flex items-center justify-center transition-colors"
+                    onClick={() => window.open("https://instagram.com/hablemos.en.serio", "_blank")}
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </button>
+                </div>
+                <img src="/logo.png" alt="Hablemos en Serio" className="w-24 h-auto" />
               </div>
             </div>
+          </div>
+          {/* Logo centered on mobile and tablet */}
+          <div className="flex lg:hidden justify-center mb-8 pb-4 border-b border-slate-800">
+            <img src="/logo.png" alt="Hablemos en Serio" className="w-24 h-auto" />
           </div>
           <div className="border-t border-slate-800 pt-6 text-sm text-center">
             <p className="mb-2">© 2025 Hablemos en Serio. Proyecto educativo y de concientización.</p>
             <p className="text-slate-500 text-xs">
-              Contenido educativo desarrollado por y para la comunidad scout de San Juan.
+              Contenido educativo desarrollado por y para jovenes.
             </p>
           </div>
         </div>
